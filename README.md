@@ -92,3 +92,9 @@ Check out the code of [Glaive fork of simple-evals](https://github.com/glaive-ai
 
 - If you encounter any issues with template filling, check the `templatefill.py` script and ensure all required environment variables are set.
 - For any connection issues, verify that the remote server details in `manage.sh` are correct and that you have proper SSH access.
+
+## Training from scratch
+
+Glaive AI has provided details about training the model from scratch (they have published the datasets and training script).
+
+Details about that can be found [here](https://github.com/glaive-ai/reflection_training_scripts). It is considered out of scope for this repo.
