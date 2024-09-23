@@ -54,22 +54,29 @@ Check out the code of [Glaive fork of simple-evals](https://github.com/glaive-ai
 
 ## Deployment and Execution
 
-1. Deploy the setup script to prepare the remote environment:
+1. Source `.env` to set the correct environment variables.
+   ```
+   set -a
+   source .env
+   set +a
+   ```
+
+2. Deploy the setup script to prepare the remote environment:
    ```
    ./manage.sh setup.sh
    ```
 
-2. Start the vLLM server for Reflection 70B:
+3. Start the vLLM server for Reflection 70B:
    ```
    ./manage.sh process-1.sh
    ```
 
-3. Run the evaluation script (run after vLLM is ready):
+4. Run the evaluation script (run after vLLM is ready):
    ```
    ./manage.sh process-2.sh
    ```
 
-4. Run the IFEval script (run after vLLM is ready):
+5. Run the IFEval script (run after vLLM is ready):
    ```
    ./manage.sh process-3.sh
    ```
