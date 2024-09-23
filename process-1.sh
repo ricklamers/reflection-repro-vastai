@@ -1,1 +1,1 @@
-vllm serve sahil2801/test-reflect --host 0.0.0.0 --port 5050 --tensor-parallel 4
+HF_TOKEN={{HF_TOKEN}} vllm serve glaiveai/Reflection-Llama-3.1-70B --host 0.0.0.0 --port 5050 --tensor-parallel 4

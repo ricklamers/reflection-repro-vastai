@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Define the remote server address and port
-REMOTE_SERVER="root@38.99.105.118"
-PORT=21515
-
 # Function to check if a file exists on the remote server
 check_file_exists() {
     ssh -p $PORT $REMOTE_SERVER "test -f $1"
@@ -38,6 +34,28 @@ copy_and_run_remote_script() {
     ssh -p $PORT $REMOTE_SERVER -t "tmux attach-session -t $session_name"
 }
 
+# Function to download benchmark result files from remote server
+download_remote_benchmark_files() {
+    local local_dir="benchmark-results"
+    mkdir -p "$local_dir"
+    ssh -p $PORT $REMOTE_SERVER "find /tmp -type f \( -name '*.html' -o -name '*.json' \) -print0" | xargs -0 -I {} scp -P $PORT $REMOTE_SERVER:{} "$local_dir/"
+    echo "Downloaded .html and .json files from /tmp to $local_dir/"
+    
+    # Download ~/simple-evals/ifeval/result.txt
+    scp -P $PORT $REMOTE_SERVER:~/simple-evals/ifeval/result.txt "$local_dir/"
+    echo "Downloaded ~/simple-evals/ifeval/result.txt to $local_dir/"
+    
+    # Download all jsonl files from ~/simple-evals/ifeval/data
+    mkdir -p "$local_dir/ifeval_data"
+    ssh -p $PORT $REMOTE_SERVER "find ~/simple-evals/ifeval/data -name '*.jsonl' -print0" | xargs -0 -I {} scp -P $PORT $REMOTE_SERVER:{} "$local_dir/ifeval_data/"
+    echo "Downloaded all jsonl files from ~/simple-evals/ifeval/data to $local_dir/ifeval_data/"
+}
+
+# Function to SSH into the remote server
+ssh_connect() {
+    ssh -p $PORT $REMOTE_SERVER
+}
+
 # Check if a target is provided
 if [ $# -eq 0 ]; then
     echo "Error: No target specified. Usage: $0 <target> [port]"
@@ -45,6 +63,18 @@ if [ $# -eq 0 ]; then
 fi
 
 target=$1
+
+# Check if the target is to download benchmark results
+if [ "$target" = "download-benchmark-results" ]; then
+    download_remote_benchmark_files
+    exit 0
+fi
+
+# Check if the target is to SSH connect
+if [ "$target" = "connect" ]; then
+    ssh_connect
+    exit 0
+fi
 
 # Check if the target file exists locally
 if [ ! -f "$target" ]; then
@@ -66,7 +96,7 @@ case $target in
         copy_and_run_remote_script $target
         ;;
     *)
-        echo "Error: Invalid target. Supported targets are setup.sh and process-<number>.sh"
+        echo "Error: Invalid target. Supported targets are setup.sh, process-<number>.sh, download-benchmark-results, and connect"
         exit 1
         ;;
 esac

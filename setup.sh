@@ -1,16 +1,14 @@
-git clone https://github.com/sahil280114/simple-evals
+git clone https://github.com/glaive-ai/simple-evals
 cd simple-evals
 pip install -r requirements.txt
+
+wget --header="Authorization: Bearer {{HF_TOKEN}}" https://huggingface.co/datasets/Idavidrein/gpqa/resolve/main/gpqa_main.csv
 
 git clone https://github.com/openai/human-eval
 cd human-eval
 pip install -e .
 
-# Needed for outlines compatibility
-pip install "numpy<2" tabulate
+# Download NLTK punkt tokenizer
+python3 -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
 
 sed -i "58s/^#//" "human_eval/execution.py"
-
-cd ..
-# Replace shareweights/v5_70_bf16 with sahil2801/test-reflect in run_reflection_eval.py
-sed -i 's/shareweights\/v5_70_bf16/sahil2801\/test-reflect/g' run_reflection_eval.py

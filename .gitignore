@@ -1,2 +1,6 @@
 bench/
 .env
+override/
+benchmark*/
+benchmark_contents_dump.txt
+.DS_Store
