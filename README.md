@@ -21,6 +21,13 @@ Model: [Reflection-70B](https://huggingface.co/glaiveai/Reflection-Llama-3.1-70B
 ### IFEval
 Is the average of loose/strict of prompt-level and instruction-level (so average of 4 scores).
 
+### Meta reported scores for Llama 3.1 70B
+For the original scores reported by Meta check out their [MODEL_CARD.md](https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md). 
+
+Note that the scores reported in this repo are a better apples:apples comparison because they use the exact same eval harness (and the published Llama 3.1 70B Instruct weights). 
+
+Check out the code of [Glaive fork of simple-evals](https://github.com/glaive-ai/simple-evals) to understand the exact details of every eval. For example, the harness only uses 0-shot and no maj@8 multi-shot inference techniques.
+
 ## Prerequisites
 
 - Access to a remote server (obtained from Vast.ai)
