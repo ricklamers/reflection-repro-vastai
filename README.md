@@ -69,10 +69,9 @@ Is the average of loose/strict of prompt-level and instruction-level (so average
 
 ## Notes
 
-- The remote server details are defined in `manage.sh`. Update the `REMOTE_SERVER` and `PORT` variables if necessary.
+- The remote server details are defined in `.env`. Update the `REMOTE_SERVER` and `PORT` variables if necessary. You need to make sure that you have `ssh` access to the Vast.ai server wherever you run `manage.sh`.
 - The project uses the vLLM Docker image: `vllm/vllm-openai:latest (0.6.1.post2)` with CUDA version 12.4.
 - The evaluation is performed using the simple-evals framework, which is automatically set up by the `setup.sh` script.
-- Ensure your OpenAI API key is correctly set in the `.env` file.
 - vLLM is run with tensor parallelism 4 so it assumes a 4x GPU setup. You can change this in `process-1.sh` and use 8x GPUs if you want to speed things up.
 
 ## Troubleshooting
